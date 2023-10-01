@@ -31,17 +31,11 @@ const createReview = async (req, res) => {
 };
 
 const getAllReviews = async (req, res) => {
-	// populate mtd allows us to reference documents in other collections so that we can get
-	// specific info about the product when requesting all reviews
 	const reviews = await Review.find({}).populate({
 		path: "product", // this is what you want to reference to
 		select: "name company price", // where you state the properties u want to get
 	});
-	// .populate({
-	// 	// note that you can add more than 1 populate like this but in this case not necessary
-	// 	path: "user", // this is what you want to reference to
-	// 	select: "name", // where you state the properties u want to get
-	// });
+
 	res.status(StatusCodes.OK).json({ reviews, count: reviews.length });
 };
 

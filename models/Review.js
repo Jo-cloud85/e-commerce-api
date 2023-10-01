@@ -33,18 +33,7 @@ const ReviewSchema = new mongoose.Schema(
 );
 
 // this ensures that the user can ONLY submit 1 review per product
-// as the reviews is dependent on BOTH product and user, you have to do this way instead of
-// stating 'unique: true' in respective product and user fields in the ReviewSchema model above
 ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
-
-/* You don't use .methods here as you want to call in on the schema and not the instance - .methods is only
-use on instance. For example, we create an instance called user under login function in authController.js
-then we can use the .methods in the UserSchema to create the comparePassword method (UserSchema.methods.comparePassword) in which then the user in authController.js can use.
-
-Here, since we want to call in on the schema, we use .statics instead, then create the function we want, 
-which in this case, its calculateAverageRating. 
-And in order to call this ReviewSchema.statics.calculateAverageRating method, under the post- hook, you got 
-to invoke it like this - await this.constructor.calculateAverageRating(this.product);  */
 
 ReviewSchema.statics.calculateAverageRating = async function (productId) {
 	const result = await this.aggregate([

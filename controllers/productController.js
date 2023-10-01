@@ -9,9 +9,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const createProduct = async (req, res) => {
-	// create user property on req.body and set it equal to userId (req.user)
-	// note that the 'user' in req.body.user MUST match the Product model word 'user'
-	// also, the req.user, and thus, the userId was set up in authentication.js middleware
 	req.body.user = req.user.userId;
 	const product = await Product.create(req.body);
 	res.status(StatusCodes.CREATED).json({ product });
@@ -25,9 +22,6 @@ const getAllProducts = async (req, res) => {
 const getSingleProduct = async (req, res) => {
 	const { id: productId } = req.params;
 
-	/* You can only populate the reviews when you have included virtuals in your ProductSchema. It allows 
-	you to connect the product to the review. You dont have to do that in ReviewSchema because the 
-	ReviewSchema model already has the products as one of its properties */
 	const product = await Product.findOne({ _id: productId }).populate(
 		"reviews"
 	);
@@ -92,11 +86,7 @@ const uploadImage = async (req, res) => {
 		"../public/uploads/" + `${productImage.name}`
 	);
 
-	// rmb that  .mv is a function to move the file elsewhere on my server. It can take a
-	// callback or return a promise
 	await productImage.mv(imagePath);
-
-	//fs.unlinkSync(req.files.image.tempFilePath)
 
 	res.status(StatusCodes.OK).json({ image: `/uploads/${productImage.name}` });
 };

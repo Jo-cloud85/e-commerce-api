@@ -1,6 +1,8 @@
 ## Hosted Project
 
-[E-Commerce API Render URL](https://node-course-e-commerce.onrender.com/)
+[E-Commerce API Render URL](https://e-commerce-api-8aua.onrender.com/)
+
+![./screenshots/main.png](./screenshots/main.png)
 
 #### Setup Basic Express Server
 
